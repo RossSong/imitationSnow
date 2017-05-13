@@ -1,8 +1,9 @@
 # imitationSnow
 iOS App for face tracking and replacing face in camera/movie.  
-OpenFrameworks(v0.9.8_ios_release), OpenCV, FaceTracker.
+OpenFrameworks(of_v0.9.8_ios_release.zip), OpenCV, FaceTracker.
 
-Please put this project under "v0.9.8_ios_release/apps/myApps/" and build/run.
+Please download [of_v0.9.8_ios_release](http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_ios_release.zip) and unzip.
+Plasee put this project under "v0.9.8_ios_release/apps/myApps/" and build/run.
 
 <div>
 <image width=200 height=300 src="https://github.com/RossSong/RossSong.github.io/blob/master/result.gif?raw=true"/>
