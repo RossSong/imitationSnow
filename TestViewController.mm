@@ -507,6 +507,8 @@ using namespace cv;
 }
 
 - (void)dealloc {
+    //주의: OpenFramework 의 Proeject Generator 로 프로젝트를 자동으로 생성하면 ARC 를 사용하지 않도록 설정되어 있어서
+    //dealloc 처리를 따로 해줘야 함. (ARC를 쓰지 않음.)
     [self stopTimer];
     
     [_imageView release];
