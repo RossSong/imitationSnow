@@ -9,9 +9,101 @@
 #import <XCTest/XCTest.h>
 #import "TEST2Controller.h"
 
+@interface MockVideoGrabberWrapper : NSObject <VideoGrabberProtocol>
+- (void)setDeviceID:(int)deviceId;
+- (void)setupWidth:(int)width withHeight:(int)height;
+- (void)update;
+- (cv::Mat)getFrame;
+- (bool)isFrameNew;
+- (void)drawMirror;
+- (void)draw;
+- (float)getWidth;
+- (float)getHeight;
+@end
+
+@implementation MockVideoGrabberWrapper
+
+- (void)setDeviceID:(int)deviceId {
+    
+}
+
+- (void)setupWidth:(int)width withHeight:(int)height {
+    
+}
+
+- (void)update {
+    
+}
+
+- (cv::Mat)getFrame {
+    Mat frame;
+    return frame;
+}
+
+- (bool)isFrameNew {
+    return NO;
+}
+
+- (void)drawMirror {
+    
+}
+
+- (void)draw {
+    
+}
+
+- (float)getWidth {
+    return 0.0;
+}
+
+- (float)getHeight {
+    return 0.0;
+}
+
+@end
+
+@interface MockFaceTrackerWrapper : NSObject <FaceTrackerProtocol>
+
+@property (assign, nonatomic) bool isSetupCalled;
+
+- (void)setup;
+- (void)update:(cv::Mat &)frame;
+- (vector<ofVec2f>)getImagePoints;
+- (bool)getFound;
+- (ofMesh)getImageMesh;
+@end
+
+@implementation MockFaceTrackerWrapper
+- (void)setup {
+    self.isSetupCalled = YES;
+}
+
+- (void)update:(cv::Mat &)frame {
+    
+}
+
+- (vector<ofVec2f>)getImagePoints {
+    vector<ofVec2f> points;
+    return points;
+}
+
+- (bool)getFound {
+    return NO;
+}
+
+- (ofMesh)getImageMesh {
+    ofMesh mesh;
+    return mesh;
+}
+
+@end
+
 @interface TEST2Tests : XCTestCase
 
 @property (strong, nonatomic) TEST2Controller *controller;
+@property (strong, nonatomic) MockFaceTrackerWrapper *maskTracker;
+@property (strong, nonatomic) MockFaceTrackerWrapper *cameraTracker;
+
 @end
 
 @implementation TEST2Tests
@@ -20,6 +112,16 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     self.controller = [[TEST2Controller alloc] init];
+    id<VideoGrabberProtocol> camera = [[MockVideoGrabberWrapper alloc] init];
+    id<FaceTrackerProtocol> maskTracker = [[MockFaceTrackerWrapper alloc] init];
+    id<FaceTrackerProtocol> cameraTracker = [[MockFaceTrackerWrapper alloc] init];
+    
+    self.maskTracker = (MockFaceTrackerWrapper*)maskTracker;
+    self.cameraTracker = (MockFaceTrackerWrapper*)cameraTracker;
+    
+    [self.controller setupCamera:camera];
+    [self.controller setFaceTrackersWithMaskFaceTracker:maskTracker
+                                  withCameraFaceTracker:cameraTracker];
 }
 
 - (void)tearDown {
@@ -42,6 +144,9 @@
 
 - (void)testSetup {
     [self.controller setup];
+    XCTAssert(self.maskTracker.isSetupCalled);
+    XCTAssert(self.cameraTracker.isSetupCalled);
+    XCTAssert(FRONT_CAM == self.controller.cameraId);
 }
 
 - (void)testSetupArrayEffects {

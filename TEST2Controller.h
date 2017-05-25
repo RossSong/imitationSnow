@@ -64,6 +64,9 @@ using namespace cv;
 
 - (void)setup;
 - (void)setupArrayEffects;
+- (void)setupCamera:(id<VideoGrabberProtocol>)camera;
+- (void)setFaceTrackersWithMaskFaceTracker:(id<FaceTrackerProtocol>)maskTracker
+                     withCameraFaceTracker:(id<FaceTrackerProtocol>)cameraTracker;
 - (void)readMP4IfUsingLocalFile;
 - (void)setupMaskFraceTracker:(NSString *)stringFileName;
 - (void)stopTimer;

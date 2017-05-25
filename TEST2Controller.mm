@@ -51,17 +51,25 @@
     [self setupMaskFraceTracker:self.arrayEffects[7]];
 }
 
+- (void)setupCamera:(id<VideoGrabberProtocol>)camera {
+    self.cam = camera;
+}
+
 - (void)setupCamera {
-    self.cameraId = 1;
-    self.cam = [[VideoGrabberWrapper alloc] init];
+    self.cameraId = FRONT_CAM;
+    
     [self.cam setDeviceID:1]; // front camera - 1
     [self.cam setupWidth:ofGetWidth() withHeight:ofGetHeight()];
     NSLog(@"width: %d, hieght: %d", ofGetWidth(), ofGetHeight());
 }
 
+- (void)setFaceTrackersWithMaskFaceTracker:(id<FaceTrackerProtocol>)maskTracker
+                       withCameraFaceTracker:(id<FaceTrackerProtocol>)cameraTracker {
+    self.maskFaceTracker = maskTracker;
+    self.cameraFaceTracker = cameraTracker;
+}
+
 - (void)setupFaceTrackers {
-    self.maskFaceTracker = [[FaceTrackerWrapper alloc] init];
-    self.cameraFaceTracker = [[FaceTrackerWrapper alloc] init];
     [self.maskFaceTracker setup];
     [self.cameraFaceTracker setup];
 }
