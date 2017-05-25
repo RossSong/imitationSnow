@@ -56,6 +56,7 @@
     self.cam = [[VideoGrabberWrapper alloc] init];
     [self.cam setDeviceID:1]; // front camera - 1
     [self.cam setupWidth:ofGetWidth() withHeight:ofGetHeight()];
+    NSLog(@"width: %d, hieght: %d", ofGetWidth(), ofGetHeight());
 }
 
 - (void)setupFaceTrackers {
@@ -225,6 +226,7 @@
     if(maskImage.getWidth() > 0){
         Mat frame = ofxCv::toCv(maskImage);
         [self.maskFaceTracker update:frame];
+        maskPoints = [self.maskFaceTracker getImagePoints];
         if(![self.maskFaceTracker getFound]){
             NSLog(@"please select good mask image.");
         }
