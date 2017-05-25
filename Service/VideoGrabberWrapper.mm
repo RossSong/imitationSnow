@@ -43,11 +43,11 @@
     cam.draw(0, 0);
 }
 
-- (int)getWidth {
+- (float)getWidth {
     return cam.getWidth();
 }
 
-- (int)getHeight {
+- (float)getHeight {
     return cam.getHeight();
 }
 

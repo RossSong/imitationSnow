@@ -270,6 +270,10 @@
     
     float scaleW = ofGetWidth() / [self.cam getWidth];
     float scaleH = ofGetHeight() / [self.cam getHeight];
+    
+    NSLog(@"width: %d, height: %d", ofGetWidth(), ofGetHeight());
+    NSLog(@"cam width: %d, height: %d", [self.cam getWidth], [self.cam getHeight]);
+    
     ofScale(scaleW, scaleH);
 }
 

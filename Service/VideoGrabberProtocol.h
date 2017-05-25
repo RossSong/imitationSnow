@@ -21,8 +21,8 @@
 - (bool)isFrameNew;
 - (void)drawMirror;
 - (void)draw;
-- (int)getWidth;
-- (int)getHeight;
+- (float)getWidth;
+- (float)getHeight;
 @end
 
 #endif /* VideoGrabberProtocol_h */
