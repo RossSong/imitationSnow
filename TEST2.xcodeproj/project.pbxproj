@@ -48,6 +48,10 @@
 		910C33691ED463640005BFA7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD80F2B2AB500518274 /* QuartzCore.framework */; };
 		910C336C1ED4639C0005BFA7 /* TEST2Controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 910C336B1ED4639C0005BFA7 /* TEST2Controller.mm */; };
 		910C336F1ED46C750005BFA7 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 910C336E1ED46C750005BFA7 /* Util.m */; };
+		912396EC1ED6B3310068F374 /* FaceTrackerWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 912396EB1ED6B3310068F374 /* FaceTrackerWrapper.mm */; };
+		912396ED1ED6B3310068F374 /* FaceTrackerWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 912396EB1ED6B3310068F374 /* FaceTrackerWrapper.mm */; };
+		912396F11ED6B9F40068F374 /* VideoGrabberWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 912396F01ED6B9F40068F374 /* VideoGrabberWrapper.mm */; };
+		912396F21ED6B9F40068F374 /* VideoGrabberWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 912396F01ED6B9F40068F374 /* VideoGrabberWrapper.mm */; };
 		9129BB791EBF11B2009CCA41 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9129BB781EBF11B2009CCA41 /* MobileCoreServices.framework */; };
 		9129BB7B1EBF1658009CCA41 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9129BB7A1EBF1658009CCA41 /* Photos.framework */; };
 		9129BB891EBF5DE6009CCA41 /* SwitchCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = 9129BB881EBF5DE6009CCA41 /* SwitchCamera.png */; };
@@ -245,6 +249,12 @@
 		910C336B1ED4639C0005BFA7 /* TEST2Controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TEST2Controller.mm; sourceTree = "<group>"; };
 		910C336D1ED46C750005BFA7 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		910C336E1ED46C750005BFA7 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		912396E91ED6B2B80068F374 /* FaceTrackerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FaceTrackerProtocol.h; path = Service/FaceTrackerProtocol.h; sourceTree = "<group>"; };
+		912396EA1ED6B3310068F374 /* FaceTrackerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FaceTrackerWrapper.h; path = Service/FaceTrackerWrapper.h; sourceTree = "<group>"; };
+		912396EB1ED6B3310068F374 /* FaceTrackerWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FaceTrackerWrapper.mm; path = Service/FaceTrackerWrapper.mm; sourceTree = "<group>"; };
+		912396EE1ED6B9DA0068F374 /* VideoGrabberProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VideoGrabberProtocol.h; path = Service/VideoGrabberProtocol.h; sourceTree = "<group>"; };
+		912396EF1ED6B9F40068F374 /* VideoGrabberWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoGrabberWrapper.h; path = Service/VideoGrabberWrapper.h; sourceTree = "<group>"; };
+		912396F01ED6B9F40068F374 /* VideoGrabberWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoGrabberWrapper.mm; path = Service/VideoGrabberWrapper.mm; sourceTree = "<group>"; };
 		9129BB781EBF11B2009CCA41 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		9129BB7A1EBF1658009CCA41 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		9129BB881EBF5DE6009CCA41 /* SwitchCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SwitchCamera.png; path = Resource/SwitchCamera.png; sourceTree = "<group>"; };
@@ -842,6 +852,19 @@
 			path = TEST2Tests;
 			sourceTree = "<group>";
 		};
+		912396E81ED6B2510068F374 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				912396E91ED6B2B80068F374 /* FaceTrackerProtocol.h */,
+				912396EA1ED6B3310068F374 /* FaceTrackerWrapper.h */,
+				912396EB1ED6B3310068F374 /* FaceTrackerWrapper.mm */,
+				912396EE1ED6B9DA0068F374 /* VideoGrabberProtocol.h */,
+				912396EF1ED6B9F40068F374 /* VideoGrabberWrapper.h */,
+				912396F01ED6B9F40068F374 /* VideoGrabberWrapper.mm */,
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
 		9129BB861EBF5DA9009CCA41 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -875,6 +898,7 @@
 		91DDE96E1EBA2C26009668B7 /* Objc */ = {
 			isa = PBXGroup;
 			children = (
+				912396E81ED6B2510068F374 /* Service */,
 				913B3DB51EC045B600B0AFFD /* AVAsset+VideoOrientation.h */,
 				913B3DB61EC045B600B0AFFD /* AVAsset+VideoOrientation.mm */,
 				910C336A1ED4639C0005BFA7 /* TEST2Controller.h */,
@@ -1400,6 +1424,7 @@
 				5CC34D433F5806179935B89D /* Flow.cpp in Sources */,
 				2023EF517ED2D8B397511D4B /* Helpers.cpp in Sources */,
 				311DF864378748129984EA1D /* Kalman.cpp in Sources */,
+				912396EC1ED6B3310068F374 /* FaceTrackerWrapper.mm in Sources */,
 				C602002DE761F9B52DB4400A /* ObjectFinder.cpp in Sources */,
 				7CDAD32BE4FA46701E3552C7 /* RunningBackground.cpp in Sources */,
 				91DDE9721EBA30B0009668B7 /* TestViewController.mm in Sources */,
@@ -1428,6 +1453,7 @@
 				E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */,
 				63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */,
 				D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */,
+				912396F11ED6B9F40068F374 /* VideoGrabberWrapper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1436,6 +1462,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				910C33521ED460260005BFA7 /* TEST2Tests.mm in Sources */,
+				912396F21ED6B9F40068F374 /* VideoGrabberWrapper.mm in Sources */,
+				912396ED1ED6B3310068F374 /* FaceTrackerWrapper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
