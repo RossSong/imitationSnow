@@ -12,10 +12,6 @@
 @interface TEST2Controller ()
 {
     VideoCapture    cap;
-    ofVideoGrabber  cam;
-    ofVideoGrabber  cam2;
-    ofxFaceTracker  cameraFaceTracker;
-    ofxFaceTracker  maskFaceTracker;
     
     ofImage         maskImage;
     vector<ofVec2f> maskPoints;
@@ -41,6 +37,9 @@
 - (void)dealloc {
     //OpenFramework 설정으로 인해 ARC를 사용하지 않음.
     self.targetDelegate = nil;
+    [self.maskFaceTracker release];
+    [self.cameraFaceTracker release];
+    [self.cam release];
     [super dealloc];
 }
 
@@ -54,13 +53,16 @@
 
 - (void)setupCamera {
     self.cameraId = 1;
-    cam.setDeviceID(1); // front camera - 1
-    cam.setup(ofGetWidth(), ofGetHeight());
+    self.cam = [[VideoGrabberWrapper alloc] init];
+    [self.cam setDeviceID:1]; // front camera - 1
+    [self.cam setupWidth:ofGetWidth() withHeight:ofGetHeight()];
 }
 
 - (void)setupFaceTrackers {
-    maskFaceTracker.setup();
-    cameraFaceTracker.setup();
+    self.maskFaceTracker = [[FaceTrackerWrapper alloc] init];
+    self.cameraFaceTracker = [[FaceTrackerWrapper alloc] init];
+    [self.maskFaceTracker setup];
+    [self.cameraFaceTracker setup];
 }
 
 - (void)setupMovieInfo {
@@ -158,8 +160,8 @@
 }
 
 - (void)updateCam {
-    cam.update();
-    Mat frame = ofxCv::toCv(cam);
+    [self.cam update];
+    Mat frame = [self.cam getFrame];
     
     if(self.isRecording){
         [self updateButtonVideoRecord];
@@ -170,8 +172,8 @@
         cv::flip(frame, frame, 1);
     }
     
-    if(cam.isFrameNew()) {
-        cameraFaceTracker.update(frame);
+    if([self.cam isFrameNew]) {
+        [self.cameraFaceTracker update:frame];
     }
 }
 
@@ -221,9 +223,9 @@
 
 - (void)drawFace {
     if(maskImage.getWidth() > 0){
-        maskFaceTracker.update(ofxCv::toCv(maskImage));
-        maskPoints = maskFaceTracker.getImagePoints();
-        if(!maskFaceTracker.getFound()){
+        Mat frame = ofxCv::toCv(maskImage);
+        [self.maskFaceTracker update:frame];
+        if(![self.maskFaceTracker getFound]){
             NSLog(@"please select good mask image.");
         }
         else {
@@ -237,15 +239,15 @@
 
 - (void)drawCam {
     if(BACK_CAM == self.cameraId) {
-        cam.draw(cam.getWidth(),0,-cam.getWidth(),cam.getHeight());
+        [self.cam drawMirror];
     }
     else {
-        cam.draw(0, 0);
+        [self.cam draw];
     }
 }
 
 - (void)drawFaceMesh {
-    cameraMesh = cameraFaceTracker.getImageMesh();
+    cameraMesh = [self.cameraFaceTracker getImageMesh];
     if(cameraMesh.getVertices().size() > 0) {
         cameraMesh.clearTexCoords();
         cameraMesh.addTexCoords(maskPoints);
@@ -264,8 +266,8 @@
     ofTranslate(ofGetWidth(), 0);
     ofScale(-1, 1);
     
-    float scaleW = ofGetWidth() / cam.getWidth();
-    float scaleH = ofGetHeight() / cam.getHeight();
+    float scaleW = ofGetWidth() / [self.cam getWidth];
+    float scaleH = ofGetHeight() / [self.cam getHeight];
     ofScale(scaleW, scaleH);
 }
 
@@ -424,7 +426,7 @@
 }
 
 - (void)updateMaskTakenPhoto {
-    if(NO == maskFaceTracker.getFound()) {
+    if(NO == [self.maskFaceTracker getFound]) {
         return;
     }
     
@@ -444,10 +446,11 @@
     if(maskImage.getWidth() > 0){
         int count = 0;
         do {
-            maskFaceTracker.update(ofxCv::toCv(maskImage));
-            maskPoints = maskFaceTracker.getImagePoints();
+            Mat frame = ofxCv::toCv(maskImage);
+            [self.maskFaceTracker update:frame];
+            maskPoints = [self.maskFaceTracker getImagePoints];
             count++;
-        } while (!maskFaceTracker.getFound() && count < 3);
+        } while (![self.maskFaceTracker getFound] && count < 3);
         
         [self updateMaskTakenPhoto];
     }
@@ -485,8 +488,9 @@
     
     //Clone library is responsbile for merging the Mask with the Input
     clone.setup(image.getWidth(), image.getHeight());
-    cameraFaceTracker.update(ofxCv::toCv(image));
-    cloneReady = cameraFaceTracker.getFound(); //yes if FaceTracker could identify a face from our input
+    Mat frame = ofxCv::toCv(image);
+    [self.cameraFaceTracker update:frame];
+    cloneReady = [self.cameraFaceTracker getFound]; //yes if FaceTracker could identify a face from our input
 }
 
 -(void)maskTakenPhoto:(ofImage &)image {
@@ -499,7 +503,7 @@
 }
 
 - (void)updateCameraMeshAndTexture {
-    cameraMesh = cameraFaceTracker.getImageMesh();
+    cameraMesh = [self.cameraFaceTracker getImageMesh];
     cameraMesh.clearTexCoords();
     cameraMesh.addTexCoords(maskPoints);
     for(int i=0; i< cameraMesh.getTexCoords().size(); i++) {
@@ -593,7 +597,8 @@
 }
 
 - (void)switchCamera {
-    ofVideoGrabber grabber;
+    //ofVideoGrabber grabber;
+    id<VideoGrabberProtocol> grabber = [[VideoGrabberWrapper alloc] init];
     
     if(BACK_CAM == self.cameraId) {
         self.cameraId = FRONT_CAM;
@@ -602,9 +607,10 @@
         self.cameraId = BACK_CAM;
     }
     
-    grabber.setDeviceID(self.cameraId);
-    grabber.setup(ofGetWidth(), ofGetHeight());
-    cam = grabber;
+    [grabber setDeviceID:self.cameraId];
+    [grabber setupWidth:ofGetWidth() withHeight:ofGetHeight()];
+    [self.cam release];
+    self.cam = grabber;
     
     self.usingLocalFile = NO;
     //self.glkView.hidden = NO;
