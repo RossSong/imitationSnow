@@ -18,6 +18,8 @@
 #import <Photos/Photos.h>
 #import <QuartzCore/QuartzCore.h>
 #import <GLKit/GLKit.h>
+#import "FaceTrackerWrapper.h"
+#import "VideoGrabberWrapper.h"
 
 
 #define BACK_CAM   0
@@ -37,6 +39,10 @@ using namespace cv;
 @end
 
 @interface TEST2Controller : NSObject
+
+@property (strong, nonatomic) id<FaceTrackerProtocol> cameraFaceTracker;
+@property (strong, nonatomic) id<FaceTrackerProtocol> maskFaceTracker;
+@property (strong, nonatomic) id<VideoGrabberProtocol> cam;
 
 @property (retain, nonatomic) id<TargetViewControllerDelegate> targetDelegate;
 @property (strong, nonatomic) NSTimer *animationTimer;
@@ -58,6 +64,9 @@ using namespace cv;
 
 - (void)setup;
 - (void)setupArrayEffects;
+- (void)setupCamera:(id<VideoGrabberProtocol>)camera;
+- (void)setFaceTrackersWithMaskFaceTracker:(id<FaceTrackerProtocol>)maskTracker
+                     withCameraFaceTracker:(id<FaceTrackerProtocol>)cameraTracker;
 - (void)readMP4IfUsingLocalFile;
 - (void)setupMaskFraceTracker:(NSString *)stringFileName;
 - (void)stopTimer;

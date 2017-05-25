@@ -53,6 +53,14 @@
 
 - (void)setupController {
     self.controller = [[TEST2Controller alloc] init];
+    id<VideoGrabberProtocol> camera = [[VideoGrabberWrapper alloc] init];
+    id<FaceTrackerProtocol> maskTracker = [[FaceTrackerWrapper alloc] init];
+    id<FaceTrackerProtocol> cameraTracker = [[FaceTrackerWrapper alloc] init];
+    
+    [self.controller setupCamera:camera];
+    [self.controller setFaceTrackersWithMaskFaceTracker:maskTracker
+                                  withCameraFaceTracker:cameraTracker];
+
     self.controller.targetDelegate = self;
     [self.controller setup];
 }
