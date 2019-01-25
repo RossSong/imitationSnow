@@ -3,7 +3,8 @@ iOS App for face tracking and replacing face in camera/movie.
 OpenFrameworks(of_v0.9.8_ios_release.zip), OpenCV, FaceTracker.
 
 Please download [of_v0.9.8_ios_release](http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_ios_release.zip) and unzip.  
-Please put this project under "v0.9.8_ios_release/apps/myApps/" and build/run.
+And download the source(ofxCv v0.9.8) from GitHub [here](https://github.com/kylemcdonald/ofxCv/tree/stable), unzip the folder, rename it from ofxCv-stable to ofxCv and place it in your "v0.9.8_ios_release/addons" folder.   
+And put this project under "v0.9.8_ios_release/apps/myApps/" and build/run.
 
 <div>
 <image width=200 height=300 src="https://github.com/RossSong/RossSong.github.io/blob/master/result.gif?raw=true"/>
