@@ -6,6 +6,8 @@ TestViewController *viewController;
 void ofApp::setup(){	
     // gui set up
     viewController = [[TestViewController alloc]initWithNibName:@"TestViewController" bundle:nil];
+    UIView* parentView = ofxiOSGetGLParentView();
+    viewController.view.frame = parentView.frame;
     [ofxiOSGetGLParentView() addSubview:viewController.view];
 }
 
